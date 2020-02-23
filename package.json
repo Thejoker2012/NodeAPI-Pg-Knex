@@ -7,7 +7,10 @@
     "start": "nodemon src/server.js",
     "test": "jest",
     "lint": "eslint src/** test/** --fix",
-    "secure-mode": "jest --watch --verbose=true"
+    "secure-mode": "jest --watch --verbose=true",
+    "migrate":"knex migrate:make",
+    "up-test":"knex migrate:latest --env test",
+    "down-test":"knex migrate:rollback --env test"
   },
   "devDependencies": {
     "eslint": "^6.8.0",
