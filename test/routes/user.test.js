@@ -30,9 +30,21 @@ test('Não deve inserir usuário sem nome', () => {
         expect(res.body.error).toBe('Nome obrigatório!');
     })
 })
+
 test('Não deve inserir usuário sem email', async () => {
     const result = await request(app).post('/users')
         .send({name:'Maria', password:'1234'})
     expect(result.status).toBe(400);
     expect(result.body.error).toBe('Email obrigatório!');
+})
+
+test('Não deve inserir usuário sem senha', async (done) => {
+    const result = await request(app).post('/users')
+        .send({name:'Maria', email:'iago@email.com'})
+    .then((res)=>{
+        expect(result.status).toBe(400);
+        expect(result.body.error).toBe('Password obrigatório!');
+        done();
+    })
+    .catch(error => done.fail(error));
 })
