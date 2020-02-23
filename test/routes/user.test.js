@@ -2,6 +2,8 @@ const request = require('supertest');
 
 const app = require('../../src/app.js');
 
+const email = `${Date.now()}@email.com`
+
 test('Deve listar todos os usuários', ()=>{
     return request(app).get('/users')
     .then((res) => {
@@ -11,8 +13,6 @@ test('Deve listar todos os usuários', ()=>{
 });
 
 test('Deve inserir usuário com sucesso', ()=>{
-
-    const email = `${Date.now()}@email.com`
 
     return request(app).post('/users')
     .send({ name: 'Angélica',email, password:'123456'})
@@ -39,12 +39,21 @@ test('Não deve inserir usuário sem email', async () => {
 })
 
 test('Não deve inserir usuário sem senha', async (done) => {
-    const result = await request(app).post('/users')
+    request(app).post('/users')
         .send({name:'Maria', email:'iago@email.com'})
     .then((res)=>{
-        expect(result.status).toBe(400);
-        expect(result.body.error).toBe('Password obrigatório!');
+        expect(res.status).toBe(400);
+        expect(res.body.error).toBe('Password obrigatório!');
         done();
     })
     .catch(error => done.fail(error));
+})
+
+test('Não deve inserir usuário com email existente', async () => {
+    return request(app).post('/users')
+    .send({ name: 'Angélica',email, password:'123456'})
+    .then((res) => {
+        expect(res.status).toBe(400);
+        expect(res.body.error).toBe('Já existe um usuário cadastrado com esse email!');
+    });
 })
