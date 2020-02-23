@@ -19,7 +19,9 @@ consign({cwd:'src', verbose:false})
 //Inclua o diretório config
 .include('./config/middlewares.js')
 //Inclua também
-.then('./routes/')
+.then('./services')
+//Inclua também
+.then('./routes')
 //Inclua também
 .then('./config/routes.js')
 //Dentro do app
