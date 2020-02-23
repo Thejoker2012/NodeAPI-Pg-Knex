@@ -3,6 +3,13 @@
 const app = require('express')();
 //Organizador de pacotes
 const consign = require('consign');
+//Import do gerenciador de migrates ddo banco knex
+const knex = require('knex');
+//Import do arquivo de configuração e criação das migrations
+const knexfile = require('../knexfile.js');
+
+//Criar chaveamento dinâmico
+app.db = knex(knexfile.test);
 
 consign({cwd:'src', verbose:false})
 //Inclua o diretório config
