@@ -21,3 +21,12 @@ test('Deve inserir usuário com sucesso', ()=>{
         expect(res.body.name).toBe('Angélica');
     });
 });
+
+test('Não deve inserir usuário sem nome', () => {
+    return request(app).post('/users')
+    .send({email:'email@test.com', password:'1234'})
+    .then((res)=>{
+        expect(res.status).toBe(400);
+        expect(res.body.error).toBe('Nome obrigatório!');
+    })
+})

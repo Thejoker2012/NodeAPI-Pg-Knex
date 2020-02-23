@@ -5,6 +5,7 @@ module.exports = (app) => {
     }
 
     const save = (user) => {
+        if(!user.name) return { error: 'Nome obrigatório!'}
         return app.db('users').insert(user, '*');
     }
 
