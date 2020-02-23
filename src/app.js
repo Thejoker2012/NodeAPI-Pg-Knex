@@ -4,7 +4,7 @@ const app = require('express')();
 //Organizador de pacotes
 const consign = require('consign');
 
-consign({cwd:'src'})
+consign({cwd:'src', verbose:false})
 .include('./config/middlewares.js')
 .into(app)
 
