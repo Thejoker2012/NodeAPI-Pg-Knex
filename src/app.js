@@ -7,9 +7,13 @@ const consign = require('consign');
 const knex = require('knex');
 //Import do arquivo de configuração e criação das migrations
 const knexfile = require('../knexfile.js');
+//log de migrations
+const knexlogger = require('knex-logger');
 
 //Criar chaveamento dinâmico
 app.db = knex(knexfile.test);
+
+app.use(knexlogger(app.db));
 
 consign({cwd:'src', verbose:false})
 //Inclua o diretório config
