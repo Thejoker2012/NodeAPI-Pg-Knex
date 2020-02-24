@@ -8,8 +8,20 @@ module.exports = (app) => {
         return app.db('accounts');
     }
 
+    const findOne = (filter={}) => {
+        return app.db('accounts').where(filter).first();
+    }
+
+    const update = (id, account) => {
+        return app.db('accounts')
+        .where({id})
+        .update(account, '*')
+    }
+
     return {
         save,
-        findAll
+        findAll,
+        findOne,
+        update
     }
 }

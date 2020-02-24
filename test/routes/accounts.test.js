@@ -28,3 +28,26 @@ test('Deve listar todos as accounts', ()=>{
             expect(res.body.length).toBeGreaterThan(0);
     })
 });
+
+test('Deve retornar uma account por Id', ()=>{
+    return app.db('accounts')
+        .insert({name:'Acc List por Id', user_id: user.id},['id'])
+        .then( acc => request(app).get(`${MAIN_ROUTE}/${acc[0].id}`))
+        .then((res)=>{
+            expect(res.status).toBe(200);
+            expect(res.body.name).toBe('Acc List por Id');
+            expect(res.body.user_id).toBe(user.id);
+        });
+});
+
+test('Deve alterar uma account', ()=>{
+    return app.db('accounts')
+        .insert({name:'Acc Update', user_id: user.id},['id'])
+        .then( acc => request(app).put(`${MAIN_ROUTE}/${acc[0].id}`)
+        .send({name: 'Acc Updated'}))
+        .then((res)=>{
+            expect(res.status).toBe(200)
+            expect(res.body.name).toBe('Acc Updated');
+        })
+        
+});
