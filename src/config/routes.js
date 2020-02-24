@@ -11,6 +11,7 @@ module.exports = (app) =>{
     app.route('/accounts/:id')
     .get(app.routes.accounts.findOne)
     .put(app.routes.accounts.update)
+    .delete(app.routes.accounts.remove)
     
 
 }

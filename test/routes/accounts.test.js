@@ -51,3 +51,13 @@ test('Deve alterar uma account', ()=>{
         })
         
 });
+
+test('Deve remover uma account', ()=>{
+    return app.db('accounts')
+        .insert({name:'Acc to remove', user_id: user.id},['id'])
+        .then( acc => request(app).delete(`${MAIN_ROUTE}/${acc[0].id}`))
+        .then((res)=>{
+            expect(res.status).toBe(204);
+        })
+        
+});
