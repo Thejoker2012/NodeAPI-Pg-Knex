@@ -7,13 +7,9 @@ const consign = require('consign');
 const knex = require('knex');
 //Import do arquivo de configuração e criação das migrations
 const knexfile = require('../knexfile.js');
-//log de migrations
-const knexlogger = require('knex-logger');
 
 //Criar chaveamento dinâmico
 app.db = knex(knexfile.test);
-
-app.use(knexlogger(app.db));
 
 consign({cwd:'src', verbose:false})
 //Inclua o diretório config
@@ -27,9 +23,18 @@ consign({cwd:'src', verbose:false})
 //Dentro do app
 .into(app)
 
+
 //Rota padrão
 app.get('/', (req, res)=>{
     res.status(200).send();
+})
+
+//Rota que vaí ser mostrada caso ela não exista
+app.use((err, req, res, next)=>{
+    const {name,message,stack} = err;
+    if (name ==='ValidateError') res.status(400).json({error:message})
+    else res.status(500).json({name,message,stack})
+    next(err);
 })
 
 //Exportando app
