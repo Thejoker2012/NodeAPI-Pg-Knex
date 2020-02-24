@@ -19,6 +19,7 @@ test('Deve inserir usuário com sucesso', ()=>{
     .then((res) => {
         expect(res.status).toBe(201);
         expect(res.body.name).toBe('Angélica');
+        expect(res.body).not.toHaveProperty('password');
     });
 });
 
