@@ -58,3 +58,14 @@ test('Não deve inserir usuário com email existente', async () => {
         expect(res.body.error).toBe('Já existe um usuário cadastrado com esse email!');
     });
 })
+
+test('Deve armazenar senha criptografada', async () => {
+    const res = await request(app).post('/users')
+    .send({ name: 'Angélica',email:`${Date.now()}@email.com`, password:'123456'})
+    expect(res.status).toBe(201);
+
+    const {id} = res.body
+    const userDB = await app.services.user.findOne({id})
+    expect(userDB.password).not.toBeUndefined();
+    expect(userDB.password).not.toBe('123456');
+})
