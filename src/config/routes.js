@@ -2,6 +2,8 @@ module.exports = (app) =>{
 
     app.route('/auth/signin')
     .post(app.routes.auth.signin)
+    app.route('/auth/signup')
+    .post(app.routes.user.create)
 
     app.route('/users')
     .all(app.config.passport.authenticate())

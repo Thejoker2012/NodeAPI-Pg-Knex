@@ -17,6 +17,19 @@ test('Deve receber token ao logar', () => {
     
 });
 
+test('Deve criar um usuário via signup', () => {
+
+    return request(app).post('/auth/signup')
+    .send({name:'Iago',email:`${Date.now()}@email.com`, password:'123456'})
+    .then((res)=>{
+        expect(res.status).toBe(201);
+        expect(res.body.name).toBe('Iago');
+        expect(res.body).toHaveProperty('email')
+        expect(res.body).not.toHaveProperty('password')
+
+    })
+});
+
 test('Não deve autenticar usuário com senha errada', () => {
 
     const email =`${Date.now()}@email.com`
