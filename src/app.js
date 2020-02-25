@@ -13,7 +13,9 @@ app.db = knex(knexfile.test);
 
 consign({cwd:'src', verbose:false})
 //Inclua o diretório config
-.include('./config/middlewares.js')
+.include('./config/passport.js')
+//Inclua o diretório config
+.then('./config/middlewares.js')
 //Inclua também
 .then('./services')
 //Inclua também
