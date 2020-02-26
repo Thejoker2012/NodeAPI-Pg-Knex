@@ -1,44 +1,51 @@
+const express = require('express');
+
 module.exports = (app) =>{
 
-    const create = (req, res, next) => {
+    const router = express.Router();
+
+    //Rota criar uma account
+    router.post('/', (req, res, next) => {
         app.services.accounts.save(req.body)
         .then((result) => {
             return res.status(201).json(result[0]);
         })
         .catch(err => next(err))
  
-    }
+    })
 
-    const findAll = (req, res, next) => {
+    //Rota para buscar todas as accounts
+    router.get('/',  (req, res, next) => {
         app.services.accounts.findAll()
             .then(result => res.status(200).json(result))
             .catch(err => next(err))
-    };
 
-    const findOne = (req, res, next) => {
+    });
+
+    //Rota para buscar uma account
+    router.get('/:id', (req, res, next) => {
         app.services.accounts.findOne({id: req.params.id})
             .then(result => res.status(200).json(result))
             .catch(err => next(err))
-    };
 
-    const update = (req, res, next) => {
+    });
+    
+    //Rota para atualizar uma account
+    router.put('/:id', (req, res, next) => {
         app.services.accounts.update(req.params.id, req.body)
             .then(result => res.status(200).json(result[0]))
             .catch(err => next(err))
-    };
 
-    const remove = (req, res, next) => {
+    });
+
+    //Rota para deletar uma account
+    router.delete('/:id', (req, res, next) => {
         app.services.accounts.remove(req.params.id)
             .then(() => res.status(204).send())
             .catch(err => next(err))
-    };
+            
+    });
 
-    return {
-        create,
-        findAll,
-        findOne,
-        update,
-        remove
-    }
+    return router;
 
 }

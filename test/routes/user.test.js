@@ -4,6 +4,8 @@ const jwt = require('jwt-simple');
 
 const app = require('../../src/app.js');
 
+const MAIN_ROUTE = '/v1/users';
+
 const email = `${Date.now()}@email.com`
 
 let user;
@@ -15,7 +17,7 @@ beforeAll(async ()=>{
 });
 
 test('Deve listar todos os usuários', ()=>{
-    return request(app).get('/users')
+    return request(app).get(MAIN_ROUTE)
     .set('authorization', `bearer ${user.token}`)
     .then((res) => {
         expect(res.status).toBe(200);
@@ -23,9 +25,9 @@ test('Deve listar todos os usuários', ()=>{
     });
 });
 
-test('Deve inserir usuário com sucesso', async ()=>{
+test('Deve inserir usuário com sucesso', ()=>{
 
-    return request(app).post('/users')
+    return request(app).post(MAIN_ROUTE)
     .send({ name: 'Angélica',email, password:'12345'})
     .set('authorization', `bearer ${user.token}`)
     .then((res) => {
@@ -36,7 +38,7 @@ test('Deve inserir usuário com sucesso', async ()=>{
 });
 
 test('Não deve inserir usuário sem nome', () => {
-    return request(app).post('/users')
+    return request(app).post(MAIN_ROUTE)
     .send({email:'email@test.com', password:'1234'})
     .set('authorization', `bearer ${user.token}`)
     .then((res)=>{
@@ -46,7 +48,7 @@ test('Não deve inserir usuário sem nome', () => {
 })
 
 test('Não deve inserir usuário sem email', async () => {
-    const result = await request(app).post('/users')
+    const result = await request(app).post(MAIN_ROUTE)
         .send({name:'Maria', password:'1234'})
         .set('authorization', `bearer ${user.token}`)
     expect(result.status).toBe(400);
@@ -54,7 +56,7 @@ test('Não deve inserir usuário sem email', async () => {
 })
 
 test('Não deve inserir usuário sem senha', async (done) => {
-    request(app).post('/users')
+    request(app).post(MAIN_ROUTE)
         .send({name:'Maria', email:'iago@email.com'})
         .set('authorization', `bearer ${user.token}`)
     .then((res)=>{
@@ -66,7 +68,7 @@ test('Não deve inserir usuário sem senha', async (done) => {
 })
 
 test('Não deve inserir usuário com email existente', async () => {
-    return request(app).post('/users')
+    return request(app).post(MAIN_ROUTE)
     .send({ name: 'Angélica',email, password:'123456'})
     .set('authorization', `bearer ${user.token}`)
     .then((res) => {
@@ -76,7 +78,7 @@ test('Não deve inserir usuário com email existente', async () => {
 })
 
 test('Deve armazenar senha criptografada', async () => {
-    const res = await request(app).post('/users')
+    const res = await request(app).post(MAIN_ROUTE)
     .send({ name: 'Angélica',email:`${Date.now()}@email.com`, password:'123456'})
     .set('authorization', `bearer ${user.token}`)
     expect(res.status).toBe(201);
