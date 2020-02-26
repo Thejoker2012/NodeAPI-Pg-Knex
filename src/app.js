@@ -21,7 +21,7 @@ consign({cwd:'src', verbose:false})
 //Inclua também
 .then('./routes')
 //Inclua também
-.then('./config/routes.js')
+.then('./config/router.js')
 //Dentro do app
 .into(app)
 
