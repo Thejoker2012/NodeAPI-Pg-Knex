@@ -7,5 +7,7 @@ module.exports = (app) =>{
     //rota /auth /signin 
     //app.routes.auth é o caminho do pacote onde estão as rotas
     app.use('/auth', app.routes.auth);
+    app.use('/users', app.routes.user);
+
 
 }
