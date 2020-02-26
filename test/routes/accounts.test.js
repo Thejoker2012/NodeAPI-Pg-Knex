@@ -14,7 +14,7 @@ beforeAll(async ()=>{
 
 test('Deve inserir uma conta com sucesso', ()=>{
     return request(app).post(MAIN_ROUTE)
-    .send({name:'Acc#1', user_id: user.id})
+    .send({name:'Acc#1'})
     .set('authorization', `bearer ${user.token}`)
     .then((result) => {
         expect(result.status).toBe(201);
@@ -73,7 +73,7 @@ test('Deve remover uma account', ()=>{
 //Validação de campos
 test('Não deve inserir uma account sem nome', () => {
     return request(app).post(MAIN_ROUTE)
-    .send({user_id: user.id})
+    .send({})
     .set('authorization', `bearer ${user.token}`)
     .then((result) => {
         expect(result.status).toBe(400);
@@ -81,9 +81,9 @@ test('Não deve inserir uma account sem nome', () => {
     });
 })
 
-test.skip('Não deve inserir uma account de nome duplicado, para o mesmo usuário', () => {})
-
 test.skip('Deve listar apenas as contas do usuário', () => {})
+
+test.skip('Não deve inserir uma account de nome duplicado, para o mesmo usuário', () => {})
 
 test.skip('Não deve retornar uma conta de outro usuário', () => {})
 

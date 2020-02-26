@@ -6,7 +6,7 @@ module.exports = (app) =>{
 
     //Rota criar uma account
     router.post('/', (req, res, next) => {
-        app.services.accounts.save(req.body)
+        app.services.accounts.save({...req.body, user_id: req.user.id})
         .then((result) => {
             return res.status(201).json(result[0]);
         })
