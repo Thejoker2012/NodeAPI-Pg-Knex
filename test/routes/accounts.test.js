@@ -3,13 +3,17 @@ const jwt = require('jwt-simple');
 const app = require('../../src/app.js');
 
 const MAIN_ROUTE = '/v1/accounts';
-const email = `${Date.now()}@email.com`
 let user;
+let user2;
 
-beforeAll(async ()=>{
-    const res = await app.services.user.save({ name:'User Account', email, password:'12345' })
+beforeEach(async ()=>{
+    const res = await app.services.user.save({ name:'User Account', email:`${Date.now()}@eemail.com`, password:'12345' })
     user = { ...res[0] };
+
     user.token = jwt.encode(user, 'Segredo!')
+
+    const res2 = await app.services.user.save({ name:'User Account #2', email:`${Date.now()}@eemail.com`, password:'12345' })
+    user2 = { ...res2[0] };
 });
 
 test('Deve inserir uma conta com sucesso', ()=>{
@@ -22,17 +26,6 @@ test('Deve inserir uma conta com sucesso', ()=>{
     });
 });
 
-
-test('Deve listar todos as accounts', ()=>{
-    return app.db('accounts')
-        .insert({name:'AccList', user_id: user.id})
-        .then(() => request(app).get(MAIN_ROUTE)
-        .set('authorization', `bearer ${user.token}`))
-        .then((res)=>{
-            expect(res.status).toBe(200);
-            expect(res.body.length).toBeGreaterThan(0);
-    })
-});
 
 test('Deve retornar uma account por Id', ()=>{
     return app.db('accounts')
@@ -81,7 +74,21 @@ test('Não deve inserir uma account sem nome', () => {
     });
 })
 
-test.skip('Deve listar apenas as contas do usuário', () => {})
+test('Deve listar apenas as contas do usuário', () => {
+
+    return app.db('accounts').insert([
+        {name:'Acc User 1#',user_id:user.id},
+        {name:'Acc User 2#',user_id:user2.id}
+    ])
+    .then(()=> request(app).get(MAIN_ROUTE)
+    .set('authorization', `bearer ${user.token}`)
+    .then((res)=>{
+        expect(res.status).toBe(200)
+        expect(res.body.length).toBe(1)
+        expect(res.body[0].name).toBe('Acc User 1#')
+    }));
+    
+});
 
 test.skip('Não deve inserir uma account de nome duplicado, para o mesmo usuário', () => {})
 
