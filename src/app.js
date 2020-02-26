@@ -34,7 +34,7 @@ app.get('/', (req, res)=>{
 //Midleware de retorno de Erro!
 app.use((err, req, res, next)=>{
     const {name,message,stack} = err;
-    if (name ==='ValidateError') res.status(400).json({error:message})
+    if (name ==='ValidationError') res.status(400).json({error:message})
     else res.status(500).json({name,message,stack})
     next(err);
 })

@@ -5,15 +5,18 @@ module.exports = (app) =>{
     app.route('/auth/signup')
     .post(app.routes.user.create)
 
+
     app.route('/users')
     .all(app.config.passport.authenticate())
     .get(app.routes.user.findAll)
     .post(app.routes.user.create)
 
+
     app.route('/accounts')
     .all(app.config.passport.authenticate())
     .post(app.routes.accounts.create)
     .get(app.routes.accounts.findAll)
+    
 
     app.route('/accounts/:id')
     .all(app.config.passport.authenticate())

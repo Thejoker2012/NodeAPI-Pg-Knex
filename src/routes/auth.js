@@ -18,7 +18,7 @@ module.exports = (app) => {
                     email: user.email
                 }
                 const token = jwt.encode(payload, secret)
-                res.status(200).json({token})
+                res.status(200).json({ token })
             }else throw new ValidationError('Usuário ou senha inválido!')
         }).catch(err => next(err));
     }
