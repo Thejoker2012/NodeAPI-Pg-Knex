@@ -103,7 +103,17 @@ test('Não deve inserir uma account de nome duplicado, para o mesmo usuário', (
 
 })
 
-test.skip('Não deve retornar uma conta de outro usuário', () => {})
+test('Não deve retornar uma conta de outro usuário', () => {
+
+    return app.db('accounts')
+    .insert({name:'Acc User 2#', user_id: user2.id},['id'])
+    .then(acc => request(app).get(`${MAIN_ROUTE}/${acc[0].id}`)
+    .set('authorization', `bearer ${user.token}`))
+    .then((res)=>{
+        expect(res.status).toBe(403)
+        expect(res.body.error).toBe('Esse recurso não pertence ao usuário!')
+    })
+})
 
 test.skip('Não deve alterar uma conta de outro usuário', () => {})
 
