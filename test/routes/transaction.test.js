@@ -47,3 +47,13 @@ test('Deve listar apenas as transações do usuário ', ()=>{
     }))
     
 });
+
+test('Deve inserir uma transação com sucesso', ()=>{
+    return request(app).post(MAIN_ROUTE)
+        .set('authorization', `bearer ${user.token}`)
+        .send({description: 'New Trans', date: new Date(), ammount: 250, type:'I', acc_id: accUser.id })
+        .then((res)=>{
+            expect(res.status).toBe(201);
+            expect(res.body.acc_id).toBe(accUser.id);
+    });
+});

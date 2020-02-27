@@ -1,4 +1,5 @@
 module.exports = (app)=> {
+
     const findOne = (userId, filter = {}) => {
         return app.db('transactions')
         .join('accounts', 'accounts.id', 'acc_id')
@@ -7,7 +8,13 @@ module.exports = (app)=> {
         .select();
     }
 
+    const save = (transaction) => {
+        return app.db('transactions')
+        .insert(transaction, '*');
+    }
+
     return {
-        findOne
+        findOne,
+        save
     }
 }
