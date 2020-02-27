@@ -25,10 +25,17 @@ module.exports = (app)=> {
         .update(transaction, '*')
     }
 
+    const remove = (id) => {
+        return app.db('transactions')
+        .where({ id })
+        .delete();
+    }
+
     return {
         find,
         save,
         findOne,
-        update
+        update,
+        remove,
     }
 }

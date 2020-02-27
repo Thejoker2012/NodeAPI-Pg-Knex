@@ -31,5 +31,12 @@ module.exports = (app) => {
         .catch(error => next(err));
     })
 
+    //Deletando transação por ID
+    router.delete('/:id',( req, res, next) => {
+        app.services.transactions.remove(req.params.id)
+        .then(() =>  res.status(204).send())
+        .catch(error => next(err));
+    })
+
     return router;
 }
