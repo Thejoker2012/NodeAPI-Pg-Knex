@@ -24,16 +24,15 @@ module.exports = (app) => {
         if(!user.password) throw new ValidationError( 'Password obrigatório!')
 
         const userDb = await findOne({email: user.email});
-        console.log('UserDb',userDb)
+        
         if(userDb) throw new ValidationError( 'Já existe um usuário cadastrado com esse email!')
-        console.log('UserDb',userDb)
-
+        
         //Cria  um novo usuário passando todas as propriedades de user para newUser
         //Usando operador spread para pegar os atributos de user e colocar em newUser
         const newUser = {...user};
         //Passando a senha gerada com bcrypt para a variáve user.password
         newUser.password = getPasswordHash(user.password);
-        console.log('newUser',newUser)
+        
         return app.db('users').insert(newUser, ['id', 'name', 'email']);
 
     }

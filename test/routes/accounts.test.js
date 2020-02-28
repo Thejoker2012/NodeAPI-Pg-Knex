@@ -6,7 +6,7 @@ const MAIN_ROUTE = '/v1/accounts';
 let user;
 let user2;
 
-beforeEach(async ()=>{
+beforeAll(async ()=>{
     const res = await app.services.user.save({ name:'User Account', email:`${Date.now()}@eemail.com`, password:'12345' })
     user = { ...res[0] };
 
@@ -15,6 +15,11 @@ beforeEach(async ()=>{
     const res2 = await app.services.user.save({ name:'User Account #2', email:`${Date.now()}@eemail.com`, password:'12345' })
     user2 = { ...res2[0] };
 });
+
+beforeEach(async ()=>{
+    await app.db('transactions').delete()
+    await app.db('accounts').delete()
+})
 
 test('Deve inserir uma conta com sucesso', ()=>{
     return request(app).post(MAIN_ROUTE)
