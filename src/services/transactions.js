@@ -1,3 +1,5 @@
+const ValidationError = require('../errors/ValidationErros.js');
+
 module.exports = (app)=> {
 
     const find = (userId, filter = {}) => {
@@ -15,6 +17,13 @@ module.exports = (app)=> {
     }
 
     const save = (transaction) => {
+        
+        if(!transaction.description) throw new ValidationError('Descrição é um atributo obrigatório!');
+        if(!transaction.ammount) throw new ValidationError('Valor é um atributo obrigatório!');
+        if(!transaction.date) throw new ValidationError('Data é um atributo obrigatório!');
+        if(!transaction.acc_id) throw new ValidationError('Conta é um atributo obrigatório!');
+        if(!transaction.type) throw new ValidationError('Tipo é um atributo obrigatório!');
+        if(!(transaction.type === 'I' || transaction.type === 'O')) throw new ValidationError('Tipo escolhido é inválido!');
 
         //Criando um clone da transação
         const newTransaction = {...transaction}
