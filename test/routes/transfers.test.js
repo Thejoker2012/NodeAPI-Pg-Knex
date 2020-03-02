@@ -114,3 +114,13 @@ describe('Ao tentar salvar uma tranferência inválida...',()=>{
     test('Não deve inserir se as contas pertencerem a outro usuário', ()=>template({acc_ori_id:10002},'Conta #10002! não pertence ao usuário!'));
     
 })
+
+test('Deve retornar uma tranferencia por id', ()=>{
+    return request(app).get(`${MAIN_ROUTE}/10000`)
+        .set('authorization', `bearer ${TOKEN}`)
+        .then((res)=>{
+            expect(res.status).toBe(200);
+            expect(res.body.description).toBe('Tranfer #1');
+        
+    });
+});

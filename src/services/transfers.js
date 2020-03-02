@@ -9,6 +9,13 @@ module.exports = (app) => {
         .select();
     }
 
+    //Buscar transação por filtro
+    const findOne = (filter = {}) => {
+        return app.db('transfers')
+        .where(filter)
+        .first();
+    }
+
     //Salvar transação
     const save = async (transfer) =>{
 
@@ -40,7 +47,8 @@ module.exports = (app) => {
 
     return {
         find,
-        save
+        findOne,
+        save,
     }
 
 }
