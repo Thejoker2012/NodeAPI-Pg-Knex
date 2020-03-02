@@ -1,7 +1,18 @@
 const express = require('express')
+const RecursoIndevidoError = require('../errors/RecursoIndevidoError.js')
 
 module.exports = (app) =>{
     const router = express.Router();
+
+    router.param('id',(req, res, next)=>{
+        app.services.transfers.findOne({id: req.params.id })
+        .then((result) => {
+            if (result.user_id != req.user.id) throw new RecursoIndevidoError()
+            next()
+        }).catch(err => next(err))
+
+
+    })
 
     const validate = (req, res, next) =>{
         app.services.transfers.validate({...req.body, user_id: req.user.id})
