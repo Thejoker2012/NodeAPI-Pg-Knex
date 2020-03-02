@@ -64,12 +64,18 @@ module.exports = (app) => {
         return result; 
     }
 
+    const remove = async (id) => {
+        await app.db('transactions').where({transfer_id:id}).del();
+        return await app.db('transfers').where({id}).del();
+    }
+
     return {
         find,
         findOne,
         save,
         update,
-        validate
+        validate,
+        remove
     }
 
 }
