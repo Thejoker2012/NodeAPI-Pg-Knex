@@ -9,6 +9,8 @@
     "lint": "eslint src/** test/** --fix",
     "secure-mode": "jest --watch --verbose=true",
     "migrate": "knex migrate:make",
+    "seed": "knex seed:make",
+    "runseed": "knex seed:run --env test",
     "up-test": "knex migrate:latest --env test",
     "down-test": "knex migrate:rollback --env test"
   },

@@ -14,9 +14,15 @@ module.exports = {
             database:process.env.KNEX_DATABASE
         },
 
+        //Diretório onde ficaram as tabelas migrations
         migrations: {
             directory:'src/migration',
         },
+
+        //Diretório para arquivos de popular as tabelas
+        seeds: {
+            directory:'src/seeds',
+        }
     },
 };
 
