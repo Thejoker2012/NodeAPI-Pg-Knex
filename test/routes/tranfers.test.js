@@ -5,6 +5,16 @@ const MAIN_ROUTE = '/v1/transfers';
 
 const TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAwMDAsIm5hbWUiOiJVc2VyIDEjIiwiZW1haWwiOiJ1c2VyMUBlbWFpbC5jb20ifQ.qcQGE2RnVr9Nbx5tOhe2ABZFPkqyJWsZGwCoIN3LsEw'
 
+//Função para apagar, criar e popular o banco de dados
+beforeAll(async ()=>{
+    //Desfazer o banco de dados
+    //await app.db.migrate.rollback();
+    //Criar o banco de dados
+    //await app.db.migrate.latest();
+    //Popular o banco de dados
+    await app.db.seed.run();
+})
+
 test('Deve listar apenas as tranferencias do usuário', ()=>{
     
     return request(app).get(MAIN_ROUTE)
