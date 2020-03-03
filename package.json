@@ -17,12 +17,13 @@
     }
   },
   "scripts": {
-    "start": "nodemon src/server.js",
-    "test": "jest --coverage --runInBand --forceExit",
+    "start": "set NODE_ENV=prod&& nodemon src/server.js",
+    "test": "set NODE_ENV=test&& nodemon src/server.js",
+    "jest": "set NODE_ENV=test&& jest --coverage --runInBand --forceExit",
     "lint": "eslint src/** test/** --fix",
     "secure-mode": "jest --watch --verbose=false",
     "migrate": "knex migrate:make",
-    "seed": "knex seed:make",
+    "seed": "knex seed:make --env test",
     "runseed": "knex seed:run --env test",
     "up-test": "knex migrate:latest --env test",
     "down-test": "knex migrate:rollback --env test",

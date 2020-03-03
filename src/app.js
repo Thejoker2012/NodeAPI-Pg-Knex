@@ -9,7 +9,9 @@ const knex = require('knex');
 const knexfile = require('../knexfile.js');
 
 //Criar chaveamento dinâmico
-app.db = knex(knexfile.test);
+app.db = knex(knexfile[process.env.NODE_ENV]);
+
+console.log(process.env.NODE_ENV)
 
 consign({cwd:'src', verbose:false})
 //Inclua o diretório config
@@ -28,6 +30,7 @@ consign({cwd:'src', verbose:false})
 
 //Rota padrão
 app.get('/', (req, res)=>{
+    res.json('Rota Publica principal').send()
     res.status(200).send();
 })
 
