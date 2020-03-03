@@ -57,7 +57,7 @@ describe('Ao salvar uma transferência válida...', ()=>{
         .set('authorization', `bearer ${TOKEN}`)
         .send({description:'Regular Transfers', user_id: 10000, acc_ori_id:10000, acc_dest_id:10001, ammount:100, date:new Date()})
         .then(async (res)=>{
-            console.log(res.body)
+            //console.log(res.body)
             expect(res.status).toBe(201);
             expect(res.body.description).toBe('Regular Transfers');
             transferId = res.body.id;
@@ -89,6 +89,12 @@ describe('Ao salvar uma transferência válida...', ()=>{
         expect(income.transfer_id).toBe(transferId);
         expect(outcome.transfer_id).toBe(transferId);
     });
+
+    test('Ambas devem estar com status de relizadas', ()=>{
+        expect(income.status).toBe(true);
+        expect(outcome.status).toBe(true);
+    });
+
 })
 
 describe('Ao tentar salvar uma tranferência inválida...',()=>{
@@ -135,7 +141,7 @@ describe('Ao alterar uma transferência válida...', ()=>{
         .set('authorization', `bearer ${TOKEN}`)
         .send({description:'Transfers Updated', user_id: 10000, acc_ori_id:10000, acc_dest_id:10001, ammount:500, date:new Date()})
         .then(async (res)=>{ 
-            console.log(res)
+            //console.log(res)
             expect(res.status).toBe(200);
             expect(res.body.description).toBe('Transfers Updated');
             expect(res.body.ammount).toBe('500.00')
