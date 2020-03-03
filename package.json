@@ -25,7 +25,9 @@
     "seed": "knex seed:make",
     "runseed": "knex seed:run --env test",
     "up-test": "knex migrate:latest --env test",
-    "down-test": "knex migrate:rollback --env test"
+    "down-test": "knex migrate:rollback --env test",
+    "up-prod": "knex migrate:latest --env prod",
+    "down-prod": "knex migrate:rollback --env prod"
   },
   "husky":{
     "hooks":{
