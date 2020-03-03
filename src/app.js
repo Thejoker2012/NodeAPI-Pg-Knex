@@ -5,11 +5,24 @@ const app = require('express')();
 const consign = require('consign');
 //Import do gerenciador de migrates ddo banco knex
 const knex = require('knex');
+
+const winston = require('winston')
+const uuid = require('uuidv4')
+
+
 //Import do arquivo de configuração e criação das migrations
 const knexfile = require('../knexfile.js');
 
 //Criar chaveamento dinâmico
 app.db = knex(knexfile[process.env.NODE_ENV]);
+
+app.log = winston.createLogger({
+    level:'debug',
+    transports:[
+        new winston.transports.Console({format: winston.format.json({space:1})}),
+        new winston.transports.File({filename: 'logs/error.log', level:'warn', format: winston.format.combine(winston.format.timestamp(), winston.format.json({space:1}))})
+    ]
+})
 
 console.log(process.env.NODE_ENV)
 
@@ -30,7 +43,7 @@ consign({cwd:'src', verbose:false})
 
 //Rota padrão
 app.get('/', (req, res)=>{
-    res.json('Rota Publica principal').send()
+    app.log.debug('Passei aqui')
     res.status(200).send();
 })
 
@@ -40,8 +53,10 @@ app.use((err, req, res, next)=>{
     if (name ==='ValidationError') res.status(400).json({error:message})
     else if (name ==='RecursoIndevidoError') res.status(403).json({error:message})
     else {
-        console.log(message)
-        res.status(500).json({name,message,stack})
+        const id = uuid();
+        //console.log(message)
+        app.log.error(id,name,message,stack)
+        res.status(500).json({ id, error: 'Falha interna!'})
     }
     next(err);
 })

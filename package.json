@@ -30,8 +30,8 @@
     "up-prod": "knex migrate:latest --env prod",
     "down-prod": "knex migrate:rollback --env prod"
   },
-  "husky":{
-    "hooks":{
+  "husky": {
+    "hooks": {
       "pre-commit": "yarn run lint && test"
     }
   },
@@ -56,6 +56,8 @@
     "nodemon": "^2.0.2",
     "passport": "0.4.0",
     "passport-jwt": "4.0.0",
-    "pg": "7.7.1"
+    "pg": "7.7.1",
+    "uuidv4": "2.0.0",
+    "winston": "3.1.0"
   }
 }
